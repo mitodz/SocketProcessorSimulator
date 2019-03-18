@@ -31,26 +31,35 @@ public class Main {
                 "235 26");
         int b = scanner.nextInt();
         int n = scanner.nextInt();
+        int j=0;//счётчик для первоначального заполнения буфера
         int time = 0;
-        Deque<HashMap.Entry<Integer,Integer>> bQ = new ArrayDeque<>();
+        Deque<HashMap.Entry<Integer,Integer>> bQ = new ArrayDeque<>();//очередь в буффере
+        Deque<HashMap.Entry<Integer,Integer>> fQ = new ArrayDeque<>();//очередь перед буффером
         for (int i = 0; i < n; i++) {
             int t = scanner.nextInt();
             int d = scanner.nextInt();
-            if (t<time) {
+            fQ.addLast(new HashMap.SimpleEntry<>(t,d));
+        }
+
+        while (bQ.size()<b && j<n) { //первоначальное заполнение буфера с запоминанием счётчика
+            bQ.addLast(fQ.pollFirst());//реализовать правильный подсчет времени для первых пакетов в буфере
+            j++;
+        }
+        while (!bQ.isEmpty()) {
+            HashMap.Entry<Integer, Integer> temp = bQ.pollFirst();
+            if (temp.getValue()<time) {
                 System.out.print(-1 + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
                 continue;
             }
-            bQ.addLast(new HashMap.SimpleEntry<>(t,d));
-            if (bQ.size()<b && i < n - 1) continue;
-            while (!bQ.isEmpty()) {
-                HashMap.Entry<Integer, Integer> temp = bQ.pollFirst();
-                time = temp.getKey() > time ? temp.getKey() : time;
-                System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
-                time += temp.getValue();
-                //16 29 44 58 72 88 -1 108 123 139 152 -1 169 183 192 202 213 229 232 236 239 247 -1 267 275
-                //6 29 73 101 116 123 164 189 194 208 216 259 270 295 322 362 -1 381 -1 -1 -1 404 420 461 484
+            time = temp.getKey() > time ? temp.getKey() : time;
+            System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
+            time += temp.getValue();
+            if (!fQ.isEmpty()) {
+                bQ.addLast(fQ.pollFirst());
             }
 
+                //16 29 44 58 72 88 -1 108 123 139 152 -1 169 183 192 202 213 229 232 236 239 247 -1 267 275
+                //6 29 73 101 116 123 164 189 194 208 216 259 270 295 322 362 -1 381 -1 -1 -1 404 420 461 484
         }
     }
 }
