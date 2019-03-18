@@ -34,17 +34,17 @@ public class Main {
         int j=0;//счётчик для первоначального заполнения буфера
         int time = 0;
         Deque<HashMap.Entry<Integer,Integer>> bQ = new ArrayDeque<>();//очередь в буффере
-        Deque<HashMap.Entry<Integer,Integer>> fQ = new ArrayDeque<>();//очередь перед буффером
-        for (int i = 0; i < n; i++) {
-            int t = scanner.nextInt();
-            int d = scanner.nextInt();
-            fQ.addLast(new HashMap.SimpleEntry<>(t,d));
-        }
 
         while (bQ.size()<b && j<n) { //первоначальное заполнение буфера с запоминанием счётчика
-            bQ.addLast(fQ.pollFirst());//реализовать правильный подсчет времени для первых пакетов в буфере
+            int t = scanner.nextInt();
+            int d = scanner.nextInt();
+            time = t > time ? t : time;
+            //System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
+            bQ.addLast(new HashMap.SimpleEntry<>(time,d));
+            time += d;
             j++;
         }
+        time=0;
         while (!bQ.isEmpty()) {
             HashMap.Entry<Integer, Integer> temp = bQ.pollFirst();
             if (temp.getValue()<time) {
@@ -54,10 +54,11 @@ public class Main {
             time = temp.getKey() > time ? temp.getKey() : time;
             System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
             time += temp.getValue();
-            if (!fQ.isEmpty()) {
-                bQ.addLast(fQ.pollFirst());
+            if (scanner.hasNext()) {
+                int t = scanner.nextInt();
+                int d = scanner.nextInt();
+                bQ.addLast(new HashMap.SimpleEntry<>(t,d));
             }
-
                 //16 29 44 58 72 88 -1 108 123 139 152 -1 169 183 192 202 213 229 232 236 239 247 -1 267 275
                 //6 29 73 101 116 123 164 189 194 208 216 259 270 295 322 362 -1 381 -1 -1 -1 404 420 461 484
         }
