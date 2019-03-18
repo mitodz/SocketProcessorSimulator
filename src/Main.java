@@ -38,10 +38,8 @@ public class Main {
         while (bQ.size()<b && j<n) { //первоначальное заполнение буфера с запоминанием счётчика
             int t = scanner.nextInt();
             int d = scanner.nextInt();
-            time = t > time ? t : time;
             //System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
-            bQ.addLast(new HashMap.SimpleEntry<>(time,d));
-            time += d;
+            bQ.addLast(new HashMap.SimpleEntry<>(t,d));
             j++;
         }
         time=0;
