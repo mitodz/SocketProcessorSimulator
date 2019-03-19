@@ -33,34 +33,35 @@ public class Main {
         int n = scanner.nextInt();
         int j=0;//счётчик для первоначального заполнения буфера
         int time = 0;
-        StringBuilder res = new StringBuilder();
         Deque<HashMap.Entry<Integer,Integer>> bQ = new ArrayDeque<>();//очередь в буффере
 
-        while (bQ.size()<b - 1 && j<n) { //первоначальное заполнение буфера с запоминанием счётчика
+        while (bQ.size()<b && j<n) { //первоначальное заполнение буфера с запоминанием счётчика
             int t = scanner.nextInt();
             int d = scanner.nextInt();
-            time = t > time ? t : time;
             //System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
-
-            bQ.addLast(new HashMap.SimpleEntry<>(time,d));
-            time += d;
+            bQ.addLast(new HashMap.SimpleEntry<>(t,d));
             j++;
         }
-        time=0;
-
         //логика - если новый элемент пытается попасть в буфер после окончания обработки первого, то норм)
 
         while (!bQ.isEmpty()) {
             HashMap.Entry<Integer, Integer> temp = bQ.pollFirst();
-            time = temp.getKey() > time ? temp.getKey() : time;
-            res.append(time).append(" ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
+            if (temp.getKey() == -1){
+                System.out.print(-1 + " ");
+            } else if (temp.getKey() > time){
+                time = temp.getKey();
+            }
+            else {
+                time = time;
+            }
+            System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
             time += temp.getValue();
             if (scanner.hasNext()) {
                 int t = scanner.nextInt();
                 int d = scanner.nextInt();
                 if (t>temp.getKey()) {
-                    bQ.addLast(new HashMap.SimpleEntry<>(t, d));
-                } else System.out.print(-1 + " ");
+                    bQ.addLast(new HashMap.SimpleEntry<>(-1, d));
+                } else bQ.addLast(new HashMap.SimpleEntry<>(t, d));
             }
                 //16 29 44 58 72 88 -1 108 123 139 152 -1 169 183 192 202 213 229 232 236 239 247 -1 267 275
                 //6 29 73 101 116 123 164 189 194 208 216 259 270 295 322 362 -1 381 -1 -1 -1 404 420 461 484
