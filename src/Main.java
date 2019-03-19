@@ -47,6 +47,7 @@ public class Main {
             HashMap.Entry<Integer, Integer> temp = bQ.pollFirst();
             if (temp.getKey() == -1){
                 System.out.print(-1 + " ");
+                continue;
             } else if (temp.getKey() > time){
                 time = temp.getKey();
                 System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
@@ -63,6 +64,7 @@ public class Main {
                 if (t<time ) {
                     bQ.addLast(new HashMap.SimpleEntry<>(-1, d));
                 } else {
+                    //time=t;
                     bQ.addLast(new HashMap.SimpleEntry<>(t, d));
                     break;
                 }
