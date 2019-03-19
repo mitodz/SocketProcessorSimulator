@@ -34,7 +34,6 @@ public class Main {
         int j=0;//счётчик для первоначального заполнения буфера
         int time = 0;
         Deque<HashMap.Entry<Integer,Integer>> bQ = new ArrayDeque<>();//очередь в буффере
-
         while (bQ.size()<b && j<n) { //первоначальное заполнение буфера с запоминанием счётчика
             int t = scanner.nextInt();
             int d = scanner.nextInt();
@@ -58,15 +57,16 @@ public class Main {
                 System.out.print(time + " ");//ФИНАЛЬНЫЙ РЕЗУЛЬТАТ С НОВОЙ СТРОКИ!!!
                 time += temp.getValue();
             }
-            if (scanner.hasNext()) {
+            while (scanner.hasNext()) {
                 int t = scanner.nextInt();
                 int d = scanner.nextInt();
-                if (t<time) {
+                if (t<time ) {
                     bQ.addLast(new HashMap.SimpleEntry<>(-1, d));
-                } else bQ.addLast(new HashMap.SimpleEntry<>(t, d));
+                } else {
+                    bQ.addLast(new HashMap.SimpleEntry<>(t, d));
+                    break;
+                }
             }
-
-                //16 29 44 58 72 88 -1 108 123 139 152 -1 169 183 192 202 213 229 232 236 239 247 -1 267 275
                 //6 29 73 101 116 123 164 189 194 208 216 259 270 295 322 362 -1 381 -1 -1 -1 404 420 461 484
         }
     }
